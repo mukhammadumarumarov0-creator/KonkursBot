@@ -1,51 +1,72 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from .models import User,BroadcastMessage
+from django.utils.html import format_html
+from django.utils.translation import gettext_lazy as _
+from .models import User
 
 @admin.register(User)
 class UserAdmin(BaseUserAdmin):
-    # List view
-    list_display = ('display_full_name', 'display_phone', 'display_ball', 'is_staff', 'is_active')
-    list_editable = ('is_staff', 'is_active')
-    list_filter = ('is_staff', 'is_active')
-    search_fields = ('full_name', 'phone', 'username', 'telegram_id')
+    model = User
 
-    # Edit view: faqat is_active va is_staff tahrir qilinadi
+    # Admin listida ko'rinadigan ustunlar
+    list_display = (
+        'id', 'full_name_link', 'telegram_id', 'phone',
+        'inviter', 'referral_points_display', 'is_staff', 'is_active_display',
+    )
+    list_editable = ["is_staff",]
+
+    # Sortlash mumkin bo‘lgan ustunlar
+    ordering = ('-referral_points',)
+
+    # Qidiruv uchun maydonlar
+    search_fields = ('username', 'full_name', 'telegram_id', 'phone')
+
+    # Filterlar
+    list_filter = ('is_staff', 'is_active', 'inviter')
+
+    # Fieldsets (expandable)
     fieldsets = (
-        (None, {'fields': ('is_active', 'is_staff')}),
+        (None, {'fields': ('username', 'password')}),
+        (_('Shaxsiy ma’lumotlar'), {'fields': ('full_name', 'telegram_id', 'phone')}),
+        (_('Referral'), {'fields': ('inviter', 'referral_points')}),
+        (_('Ruxsatlar'), {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
+        (_('Muhim sanalar'), {'fields': ('last_login', 'date_joined')}),
     )
 
-    # Yangi user qo'shish
-    add_fieldsets = (
-        (None, {
-            'classes': ('wide',),
-            'fields': ('is_active', 'is_staff'),
-        }),
-    )
+    # Readonly fields
+    readonly_fields = ('referral_points', 'last_login', 'date_joined')
 
-    ordering = ('id',)
+    # --- Qo‘shimcha funksiyalar ---
 
-    # --- Helper functions for list display ---
-    def display_full_name(self, obj):
-        return obj.full_name or obj.username
-    display_full_name.short_description = "Ism Familiya"
-    display_full_name.admin_order_field = 'full_name'
+    # full_name ustuni orqali link
+    def full_name_link(self, obj):
+        return format_html('<a href="{}">{}</a>', f'/admin/app_name/user/{obj.id}/change/', obj.full_name)
+    full_name_link.short_description = _("Foydalanuvchi ismi")
+    full_name_link.admin_order_field = 'full_name'
 
-    def display_phone(self, obj):
-        return obj.phone or "-"
-    display_phone.short_description = "Telefon raqam"
+    # referral_points ustuni labelini o‘zbekcha
+    def referral_points_display(self, obj):
+        return obj.referral_points
+    referral_points_display.short_description = _("Ball")
+    referral_points_display.admin_order_field = 'referral_points'
 
-    def display_ball(self, obj):
-        return obj.referral_points or "--"
-    display_ball.short_description = "Ball"
+    # is_staff ustuni o‘zbekcha
+    def is_staff_display(self, obj):
+        return "Ha" if obj.is_staff else "Yo'q"
+    is_staff_display.short_description = _("Xodim statusi")
+    is_staff_display.admin_order_field = 'is_staff'
 
+    # is_active ustuni o‘zbekcha
+    def is_active_display(self, obj):
+        return "Ha" if obj.is_active else "Yo'q"
+    is_active_display.short_description = _("Faol")
+    is_active_display.admin_order_field = 'is_active'
 
+    # Delete action qo‘shish
+    actions = ['delete_selected_users']
 
-@admin.register(BroadcastMessage)
-class BroadcastMessageAdmin(admin.ModelAdmin):
-    list_display = ("id", "short_text", "send_to_all", "is_sent", "created_at")
-    list_filter = ("send_to_all", "is_sent")
-    readonly_fields = ("is_sent", "created_at")
-
-    def short_text(self, obj):
-        return obj.text[:30]
+    def delete_selected_users(self, request, queryset):
+        for obj in queryset:
+            obj.delete()
+        self.message_user(request, _("Tanlangan foydalanuvchilar o‘chirildi"))
+    delete_selected_users.short_description = _("Tanlangan foydalanuvchilarni o‘chirish")

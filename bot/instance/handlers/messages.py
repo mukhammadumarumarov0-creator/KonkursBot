@@ -59,7 +59,8 @@ rules_caption = """
 
 🔗 <b>Ball to‘plash:</b>  
 — Har bir <b>yangi referal</b>: +5 ball  
-— <b>Kanalga obuna</b>: +10 ball  
+— <b>Kanalga obuna</b>: +10 ball 
+— <b>Jonli efirda ishtirok</b>: +5 ball  
 — Ballar <b>reytingga avtomatik</b> qo‘shiladi
 
 🏆 <b>G‘oliblar:</b>  
@@ -72,14 +73,6 @@ rules_caption = """
 
 📅 <b>G‘oliblar e’lon qilinadi:</b> 20-yanvar, soat 21:00 | Jonli efirda ochiq va halol tarzda
 """
-
-
-blocked_message = (
-    "<b>❌ Siz bloklandingiz!</b>\n\n"
-    "⚠️ Afsuski, hozircha bot xizmatlaridan foydalana olmaysiz.\n"
-    "📩 To‘liq ma’lumot olish va yordam uchun admin bilan bog‘laning:\n\n "
-    "👉 <a href='https://t.me/Muhammadumar_umarov'>Biznig Rasmiy Admin</a> 👈\n"
-)
 
 
 share_message_ref = """
@@ -99,3 +92,14 @@ obunaMatni = (
 "❌ <b>Salom, do‘st! 🎉</b>\n" 
 "Konkursda ishtirok etish uchun kanalimizga obuna bo‘lishingizni so‘raymiz.\n" 
 "Bu sizga yangiliklardan birinchi bo‘lib xabar olish va quvnoq sovrinlar imkoniyatini boy bermaslikka yordam beradi! 💛")
+
+welcomeAdminMatni = (
+    "👋 <b>Assalomu alaykum, Admin!</b>\n"
+    "Tizimga xush kelibsiz!\n"
+    "Endi siz kanalni boshqarishingiz va barcha funksiyalardan foydalanishingiz mumkin."
+)
+
+text_for_live = (
+   "⭐ Har bir jonli efirga qo‘shilish sizga <b>5 ball</b> beradi!\n"
+    "💡 Efir davomida faol bo‘ling va reytingingizni oshiring!\n"
+    "📌 Foydali maslahatlar va qiziqarli kontent sizni kutmoqda!")

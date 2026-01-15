@@ -112,76 +112,50 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 
-# UNFOLD = {
-#     "SITE_TITLE": "ManagerBot | Administration",
-#     "SITE_HEADER": "ManagerBot",
-#     "SITE_SUBHEADER": "Telegram Bot",
-#     "SITE_URL": "/",
 
-#     "SHOW_HISTORY": True,
-#     "SHOW_VIEW_ON_SITE": True,
-#     "SHOW_BACK_BUTTON": True,
+UNFOLD = {
+    "SITE_TITLE": "KonkursBot | Administration",   # Admin panelning brauzer title
+    "SITE_HEADER": "KonkursBot",                  # Admin panelning yuqori sarlavhasi
+    "SITE_SUBHEADER": "Telegram Bot",            # Qo‘shimcha kichik sarlavha
+    "SITE_URL": "/",                              # Panelning asosiy URL manzili
 
-#     "BORDER_RADIUS": "10px",
+    "SHOW_HISTORY": False,         # Object history ko‘rsatiladi
+    "SHOW_VIEW_ON_SITE": True,    # "View on site" tugmasi ko‘rsatiladi
+    "SHOW_BACK_BUTTON": True,     # "Back" tugmasi ko‘rsatiladi
 
-#     # Custom CSS va JS
-#     "STYLES": [
-#         lambda request: static("css/styles.css"),
-#     ],
-#     "SCRIPTS": [
-#         lambda request: static("js/scripts.js"),
-#     ],
+    "BORDER_RADIUS": "10px",      # Kartalar va oynalar radiusi
 
-#     "SIDEBAR": {
-#         "show_search": True,
-#         "show_all_applications": True,
-#         "navigation": [
-#             {
-#                 "separator": True,
-#                 "collapsible": False,
-#                 "items": [
-#                     {
-#                         "title": _("Dashboard"),
-#                         "icon": "dashboard",  # Material Icon
-#                         "link": reverse_lazy("admin:index"),
-#                     },
-#                 ],
-#             },
-#             {
-#                 "title": _("Foydalanuvchilar va darslar"),
-#                 "separator": False,
-#                 "collapsible": False,
-#                 "items": [
-#                     {
-#                         "title": _("Foydalanuvchilar"),
-#                         "icon": "person",
-#                         "link": reverse_lazy("admin:bot_user_changelist"),
-#                         "permission": lambda request: request.user.has_perm("bot.view_user"),
-#                     },
-#                     {
-#                         "title": _("Darsliklar"),
-#                         "icon": "menu_book",
-#                         "link": reverse_lazy("admin:bot_lesson_changelist"),
-#                         "permission": lambda request: request.user.has_perm("bot.view_lesson"),
-#                     },
-#                     {
-#                         "title": _("Videolar"),
-#                         "icon": "videocam",
-#                         "link": reverse_lazy("admin:bot_video_changelist"),
-#                         "permission": lambda request: request.user.has_perm("bot.view_video"),
-#                     },
-#                     {
-#                         "title": _("Testlar"),
-#                         "icon": "help_outline",
-#                         "link": reverse_lazy("admin:bot_test_changelist"),
-#                         "permission": lambda request: request.user.has_perm("bot.view_test"),
-#                     },
-#                 ]
+    # Custom CSS va JS
+    "STYLES": [
+        lambda request: static("css/styles.css"),  # o‘z CSS faylingiz
+    ],
+    "SCRIPTS": [
+        lambda request: static("js/scripts.js"),  # o‘z JS faylingiz
+    ],
 
-#             },
-#         ],
-#     },
-# }
+    "SIDEBAR": {
+        "show_search": True,              # Sidebar qidiruvini ko‘rsatish
+        "show_all_applications": True,    # "All Applications" bo‘limini ko‘rsatish
+        "navigation": [
+            # Foydalanuvchilar va darslar bo‘limi
+            {
+                "title": _("Foydalanuvchilar"),
+                "separator": False,
+                "collapsible": False,
+                "items": [
+                    {
+                        "title": _("Foydalanuvchilar"),
+                        "icon": "person",
+                        "link": reverse_lazy("admin:bot_user_changelist"),
+                        "permission": lambda request: request.user.has_perm("bot.view_user"),
+                    },
+                ]
+            },
+        ],
+    },
+}
+
+
 
   
 

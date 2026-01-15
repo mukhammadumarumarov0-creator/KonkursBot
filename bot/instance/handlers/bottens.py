@@ -1,5 +1,6 @@
 from aiogram.types import Message, ReplyKeyboardMarkup, KeyboardButton
 from aiogram.utils.keyboard import InlineKeyboardBuilder
+from aiogram.types import CallbackQuery
 
 
 
@@ -39,14 +40,23 @@ async def face_button(message: Message, text: str):
   await message.answer(text=text, reply_markup=keyboard, parse_mode='HTML')
 
 
-async def face_button_for_admin(message: Message, text: str):
+async def face_button_for_admin(message:Message, text: str):
   keyboard = ReplyKeyboardMarkup(
         keyboard=[
-           [KeyboardButton(text="Xabar Yuborish 📝"),KeyboardButton(text="Jonli Efirni Bo'shlash 📺")]
-            ],
-        resize_keyboard=True
+           [KeyboardButton(text="💬Mijozlarga xabar yuborish"),KeyboardButton(text="Jonli Efir 📺")]
+            ],resize_keyboard=True
     )
   await message.answer(text=text, reply_markup=keyboard, parse_mode='HTML')
+
+
+
+async def face_button_for_admin_callback(callback:CallbackQuery,text: str):
+  keyboard = ReplyKeyboardMarkup(
+        keyboard=[
+           [KeyboardButton(text="💬Mijozlarga xabar yuborish"),KeyboardButton(text="Jonli Efir 📺")]
+            ],resize_keyboard=True
+    )
+  await callback.message.answer(text=text, reply_markup=keyboard, parse_mode='HTML')
 
 
 def subscribe_keyboard():
